@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+#
+# Redis properties
+#
+
+# Directory to store the Redis configuration files
+export REDIS_CONF_DIR=${JOB_DIR}/config
+
+# Directory to store the Redis log files
+export REDIS_LOG_DIR=${LOG_DIR}
+
+# Directory to store the Redis process IDs
+export REDIS_PID_DIR=${RUN_DIR}
+
+# Directory to store the Redis data files
+export REDIS_STORE_DIR=${STORE_DIR}
+
+# Directory to store the Redis temp filess
+export REDIS_TEMP_DIR=${TMP_DIR}
+
+# User which will own the Redis services
+export REDIS_USER="<%= p('redis.user') %>"
+
+# Group which will own the Redis services
+export REDIS_GROUP="<%= p('redis.group') %>"

@@ -1,0 +1,25 @@
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Detect # of CPUs so make jobs can be parallelized
+CPUS=`grep -c ^processor /proc/cpuinfo`
+
+# We grab the latest versions that are in the directory
+REDIS_VERSION=`ls -r redis/redis-*.tar.gz | sed 's/redis\/redis-\(.*\)\.tar\.gz/\1/' | head -1`
+
+# Extract Redis package
+echo "Extracting Redis ${REDIS_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/redis/redis-${REDIS_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Redis ${REDIS_VERSION}"
+  exit 1
+fi
+
+# Copy Redis package
+echo "Copying Redis ${REDIS_VERSION}..."
+cp -a ${BOSH_COMPILE_TARGET}/redis-${REDIS_VERSION}/* ${BOSH_INSTALL_TARGET}/
+
+# Build Redis package
+echo "Building Redis ${REDIS_VERSION}..."
+cd ${BOSH_COMPILE_TARGET}/redis-${REDIS_VERSION}
+make PREFIX=${BOSH_INSTALL_TARGET} install

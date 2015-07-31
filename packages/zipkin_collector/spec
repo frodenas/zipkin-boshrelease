@@ -1,0 +1,5 @@
+---
+name: zipkin_collector
+dependencies: {}
+files:
+  - zipkin/zipkin-collector-service-1.1.0.zip

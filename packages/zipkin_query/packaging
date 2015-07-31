@@ -1,0 +1,21 @@
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Detect # of CPUs so make jobs can be parallelized
+CPUS=`grep -c ^processor /proc/cpuinfo`
+
+# We grab the latest versions that are in the directory
+ZIPKIN_QUERY_VERSION=`ls -r zipkin/zipkin-query-service-*.zip | sed 's/zipkin\/zipkin-query-service-\(.*\)\.zip/\1/' | head -1`
+
+# Extract Zipkin Query package
+echo "Extracting Zipkin Query ${ZIPKIN_QUERY_VERSION}..."
+unzip ${BOSH_COMPILE_TARGET}/zipkin/zipkin-query-service-${ZIPKIN_QUERY_VERSION}.zip
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Zipkin Query ${ZIPKIN_QUERY_VERSION}"
+  exit 1
+fi
+
+# Copy Zipkin Query package
+echo "Copying Zipkin Query ${ZIPKIN_QUERY_VERSION}..."
+cp -a ${BOSH_COMPILE_TARGET}/zipkin-query-service-${ZIPKIN_QUERY_VERSION}/* ${BOSH_INSTALL_TARGET}/
+

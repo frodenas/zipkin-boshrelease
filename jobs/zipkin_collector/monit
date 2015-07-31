@@ -1,0 +1,5 @@
+check process zipkin_collector
+  with pidfile /var/vcap/sys/run/zipkin_collector/zipkin_collector.pid
+  start program "/var/vcap/packages/bosh-helpers/monit_debugger zipkin_collector_ctl '/var/vcap/jobs/zipkin_collector/bin/zipkin_collector_ctl start'"
+  stop program "/var/vcap/packages/bosh-helpers/monit_debugger zipkin_collector_ctl '/var/vcap/jobs/zipkin_collector/bin/zipkin_collector_ctl stop'"
+  group vcap

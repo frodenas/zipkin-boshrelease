@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+
+# Setup common env vars and folders
+source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'zipkin_query'
+export ZIPKIN_QUERY_PID_FILE=${ZIPKIN_QUERY_PID_DIR}/zipkin_query.pid
+
+case $1 in
+
+  start)
+    pid_guard ${ZIPKIN_QUERY_PID_FILE} ${JOB_NAME}
+    echo $$ > ${ZIPKIN_QUERY_PID_FILE}
+
+    # Create Zipkin Query user & group
+    create_group ${ZIPKIN_QUERY_GROUP}
+    create_user ${ZIPKIN_QUERY_USER} ${ZIPKIN_QUERY_GROUP}
+
+    # Find Zipkin Query jar
+    zikpkin_query_jar=`ls -r /var/vcap/packages/zipkin_query/zipkin-query-service-*.jar | grep -v test | head -1`
+
+    # Start Zipkin Query service
+    exec chpst -u ${ZIPKIN_QUERY_USER}:${ZIPKIN_QUERY_GROUP} java \
+           -Xmx"${ZIPKIN_QUERY_JAVA_HEAP_SIZE}" \
+           -Xms"${ZIPKIN_QUERY_JAVA_HEAP_SIZE}" \
+           -Dfile.encoding=UTF-8 \
+           -Djava.io.tmpdir=${ZIPKIN_QUERY_TMP_DIR} \
+           -cp "/var/vcap/packages/zipkin_query/libs/*" \
+           -jar "${zikpkin_query_jar}" \
+           -f ${ZIPKIN_QUERY_CONF_DIR}/query.scala \
+           >>${ZIPKIN_QUERY_LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
+           2>>${ZIPKIN_QUERY_LOG_DIR}/${OUTPUT_LABEL}.stderr.log
+    ;;
+
+  stop)
+    # Stop Zipkin Query service
+    kill_and_wait ${ZIPKIN_QUERY_PID_FILE}
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+
+esac
+exit 0

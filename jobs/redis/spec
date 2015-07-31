@@ -1,0 +1,98 @@
+---
+name: redis
+
+packages:
+  - bosh-helpers
+  - redis
+
+templates:
+  bin/job_properties.sh.erb: bin/job_properties.sh
+  bin/redis_ctl.erb: bin/redis_ctl
+  config/logrotate.conf.erb: config/logrotate.conf
+  config/redis.conf.erb: config/redis.conf
+  config/redis_logrotate.cron.erb: config/redis_logrotate.cron
+
+properties:
+  redis.user:
+    description: "User which will own the Redis services"
+    default: "root"
+  redis.group:
+    description: "Group which will own the Redis services"
+    default: "vcap"
+  redis.port:
+    description: "Redis port"
+    default: 6379
+  redis.tcp_backlog:
+    description: "TCP backlog limit"
+    default: 511
+  redis.client_timeout:
+    description: "Close the connection after a client is idle for N seconds (0 to disable)"
+    default: 0
+  redis.tcp_keep_alive:
+    description: "TCP keepalive"
+    default: 0
+  redis.loglevel:
+    description: "Redis verbosity level (debug, verbose, notice, warning)"
+    default: "notice"
+  redis.databases:
+    description: "Number of databases"
+    default: 16
+  redis.password:
+    description: "Redis password"
+
+  redis.snapshot.stop_writes_on_bgsave_error:
+    description: "Stop accepting writes if RDB snapshots are enabled and the latest background save failed"
+    default: "yes"
+  redis.snapshot.rdbcompression:
+    description: "Compress string objects using LZF when dump .rdb databases?"
+    default: "yes"
+  redis.snapshot.rdbchecksum:
+    description: "Enable RDB checksum "
+    default: "yes"
+
+  redis.replication.slaveof_masterip:
+    description: "Redis master IP"
+  redis.replication.slaveof_masterport:
+    description: "Redis master port"
+  redis.replication.masterauth:
+    description: "Redis master password"
+  redis.replication.slave_serve_stale_data:
+    description: "Reply with data when a slave loses its connection with the master"
+    default: "yes"
+  redis.replication.slave_read_only:
+    description: "Configure slave instance to accept writes or not"
+    default: "yes"
+  redis.replication.repl_diskless_sync:
+    description: "Use diskless replication"
+    default: "no"
+  redis.replication.repl_diskless_sync_delay:
+    description: "Diskless replication delay"
+    default: 5
+  redis.replication.repl_ping_slave_period:
+    desciption: "Interval to send PINGs to server"
+    default: 10
+  redis.replication.repl_timeout:
+    description: "Replication timeout"
+    default: 60
+  redis.replication.repl_disable_tcp_nodelay:
+    description: "Disable TCP_NODELAY on the slave socket after SYNC?"
+    default: "no"
+  redis.replication.repl_backlog_size:
+    description: "Set the replication backlog size"
+    default: "1mb"
+  redis.replication.repl_backlog_ttl:
+    description: "the amount of seconds that need to elapse, starting from the time the last slave disconnected, for the backlog buffer to be freed"
+    default: 3600
+  redis.replication.slave_priority:
+    description: "Slave priority"
+    default: 100
+
+  redis.logrotate.frequency:
+    description: "Frequency to run logrotate for Redis log files (crontab five time and date fields)"
+    default: "0 * * * *"
+  redis.logrotate.rotate:
+    description: "Number of times Redis log files are rotated before being removed"
+    default: "7"
+  redis.logrotate.size:
+    description: "Size before Redis log files are rotated"
+    default: "10M"

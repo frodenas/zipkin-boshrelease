@@ -1,0 +1,5 @@
+---
+name: zipkin_query
+dependencies: {}
+files:
+  - zipkin/zipkin-query-service-1.1.0.zip

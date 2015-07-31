@@ -1,0 +1,5 @@
+---
+name: zipkin_web
+dependencies: {}
+files:
+  - zipkin/zipkin-web-1.1.0.zip

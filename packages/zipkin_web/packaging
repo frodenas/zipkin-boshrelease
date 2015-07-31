@@ -1,0 +1,20 @@
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Detect # of CPUs so make jobs can be parallelized
+CPUS=`grep -c ^processor /proc/cpuinfo`
+
+# We grab the latest versions that are in the directory
+ZIPKIN_WEB_VERSION=`ls -r zipkin/zipkin-web-*.zip | sed 's/zipkin\/zipkin-web-\(.*\)\.zip/\1/' | head -1`
+
+# Extract Zipkin Web package
+echo "Extracting Zipkin Web ${ZIPKIN_WEB_VERSION}..."
+unzip ${BOSH_COMPILE_TARGET}/zipkin/zipkin-web-${ZIPKIN_WEB_VERSION}.zip
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Zipkin Web ${ZIPKIN_WEB_VERSION}"
+  exit 1
+fi
+
+# Copy Zipkin Web package
+echo "Copying Zipkin Web ${ZIPKIN_WEB_VERSION}..."
+cp -a ${BOSH_COMPILE_TARGET}/zipkin-web-${ZIPKIN_WEB_VERSION}/* ${BOSH_INSTALL_TARGET}/

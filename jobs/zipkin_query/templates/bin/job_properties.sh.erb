@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+#
+# Zipkin Query properties
+#
+
+# Directory to store the Zipkin Query configuration files
+export ZIPKIN_QUERY_CONF_DIR=${JOB_DIR}/config
+
+# Directory to store the Zipkin Query log files
+export ZIPKIN_QUERY_LOG_DIR=${LOG_DIR}
+
+# Directory to store the Zipkin Query process IDs
+export ZIPKIN_QUERY_PID_DIR=${RUN_DIR}
+
+# Directory to store the Zipkin Query data files
+export ZIPKIN_QUERY_STORE_DIR=${STORE_DIR}
+
+# Directory to store the Zipkin Query temp files
+export ZIPKIN_QUERY_TMP_DIR=${TMP_DIR}
+
+# User which will own the Zipkin Query services
+export ZIPKIN_QUERY_USER="<%= p('zipkin.query.user') %>"
+
+# Group which will own the Zipkin Query services
+export ZIPKIN_QUERY_GROUP="<%= p('zipkin.query.group') %>"
+
+# Java Heap Size for Zipkin Query
+export ZIPKIN_QUERY_JAVA_HEAP_SIZE="<%= p('zipkin.query.java_heap_size') %>"

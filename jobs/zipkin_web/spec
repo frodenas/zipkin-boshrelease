@@ -1,0 +1,42 @@
+---
+name: zipkin_web
+
+packages:
+  - bosh-helpers
+  - java
+  - scala
+  - zipkin_web
+
+templates:
+  bin/job_properties.sh.erb: bin/job_properties.sh
+  bin/zipkin_web_ctl.erb: bin/zipkin_web_ctl
+  config/web.scala.erb: config/web.scala
+
+properties:
+  zipkin.web.user:
+    description: "User which will own the Zipkin Web services"
+    default: "root"
+  zipkin.web.group:
+    description: "Group which will own the Zipkin Web services"
+    default: "vcap"
+  zipkin.web.java_heap_size:
+    description: "Java Heap Size for Zipkin Web"
+    default: "512m"
+  zipkin.web.server_port:
+    description: "Zipkin Web server port"
+    default: 80
+  zipkin.web.admin_port:
+    description: "Zipkin Web admin port"
+    default: 9902
+  zipkin.web.resource_path_prefix:
+    description: ""
+    default: "/public"
+
+  zookeeper.servers:
+    description: "List of all Apache Zookeeper server host IP/hostnames"
+  zookeeper.client_port:
+    description: "Port at which the clients will connect to Apache Zookeeper"
+    default: 2181
+  zookeeper.zk_state:
+    description: "Path in ZooKeeper for storing Zipkin state"
+    default: "/zipkin"

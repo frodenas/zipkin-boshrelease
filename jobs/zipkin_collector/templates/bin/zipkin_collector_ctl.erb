@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+
+# Setup common env vars and folders
+source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'zipkin_collector'
+export ZIPKIN_COLLECTOR_PID_FILE=${ZIPKIN_COLLECTOR_PID_DIR}/zipkin_collector.pid
+
+case $1 in
+
+  start)
+    pid_guard ${ZIPKIN_COLLECTOR_PID_FILE} ${JOB_NAME}
+    echo $$ > ${ZIPKIN_COLLECTOR_PID_FILE}
+
+    # Create Zipkin Collector user & group
+    create_group ${ZIPKIN_COLLECTOR_GROUP}
+    create_user ${ZIPKIN_COLLECTOR_USER} ${ZIPKIN_COLLECTOR_GROUP}
+
+    # Find Zipkin Collector jar
+    zikpkin_collector_jar=`ls -r /var/vcap/packages/zipkin_collector/zipkin-collector-service-*.jar | grep -v test | head -1`
+
+    # Start Zipkin Collector service
+    exec chpst -u ${ZIPKIN_COLLECTOR_USER}:${ZIPKIN_COLLECTOR_GROUP} java \
+           -Xmx"${ZIPKIN_COLLECTOR_JAVA_HEAP_SIZE}" \
+           -Xms"${ZIPKIN_COLLECTOR_JAVA_HEAP_SIZE}" \
+           -Dfile.encoding=UTF-8 \
+           -Djava.io.tmpdir=${ZIPKIN_COLLECTOR_TMP_DIR} \
+           -cp "/var/vcap/packages/zipkin_collector/libs/*" \
+           -jar "${zikpkin_collector_jar}" \
+           -f ${ZIPKIN_COLLECTOR_CONF_DIR}/collector.scala \
+           >>${ZIPKIN_COLLECTOR_LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
+           2>>${ZIPKIN_COLLECTOR_LOG_DIR}/${OUTPUT_LABEL}.stderr.log
+    ;;
+
+  stop)
+    # Stop Zipkin Collector service
+    kill_and_wait ${ZIPKIN_COLLECTOR_PID_FILE}
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+
+esac
+exit 0

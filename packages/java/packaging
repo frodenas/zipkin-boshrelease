@@ -1,0 +1,21 @@
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Detect # of CPUs so make jobs can be parallelized
+CPUS=`grep -c ^processor /proc/cpuinfo`
+
+# We grab the latest versions that are in the directory
+JAVA_VERSION=`ls -r java/jdk-*.tar.gz | sed 's/java\/jdk-\(.*\)\.tar\.gz/\1/' | head -1`
+
+# Extract and copy Java package
+echo "Extracting Java ${JAVA_VERSION}..."
+tar xzvf ${BOSH_COMPILE_TARGET}/java/jdk-${JAVA_VERSION}.tar.gz
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Java ${JAVA_VERSION}"
+  exit 1
+fi
+
+# Copy Java package
+echo "Copying Java ${JAVA_VERSION}..."
+mkdir -p ${BOSH_INSTALL_TARGET}/jdk
+cp -a ${BOSH_COMPILE_TARGET}/jdk${JAVA_VERSION}/* ${BOSH_INSTALL_TARGET}/jdk

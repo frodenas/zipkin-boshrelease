@@ -1,0 +1,10 @@
+/var/vcap/sys/log/redis/*.log {
+  missingok
+  rotate <%= p('redis.logrotate.rotate') %>
+  compress
+  delaycompress
+  notifempty
+  copytruncate
+  size <%= p('redis.logrotate.size') %>
+  su <%= p('redis.user') %> <%= p('redis.group') %>
+}

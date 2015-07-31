@@ -1,0 +1,48 @@
+/*
+ * Copyright 2012 Twitter Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+<%
+def openstruct_to_hash(os)
+  os.marshal_dump.map do |key, element|
+    element.is_a?(OpenStruct) ? { key => openstruct_to_hash(element) } : { key => element }
+  end.reduce(&:merge)
+end
+
+networks = openstruct_to_hash(spec.networks)
+default_network = networks.values.find { |net| net.has_key?(:default) }
+private_ip = default_network[:ip]
+
+vip_network = networks.values.find { |net| net[:type] == 'vip' }
+public_ip = vip_network.nil? ? private_ip : vip_network[:ip]
+%>
+
+import com.twitter.zipkin.builder.{Scribe, ZipkinServerBuilder}
+import com.twitter.zipkin.collector.builder.CollectorServiceBuilder
+import com.twitter.zipkin.redis
+import com.twitter.zipkin.storage.Store
+import java.net.InetAddress
+
+val storeBuilder = Store.Builder(
+  redis.StorageBuilder("<%= p('redis.address') %>", <%= p('redis.port') %>),
+  redis.IndexBuilder("<%= p('redis.address') %>", <%= p('redis.port') %>)
+)
+
+val serverAddress = InetAddress.getByName("<%= private_ip %>")
+val serverBuilder = ZipkinServerBuilder(<%= p('zipkin.collector.server_port') %>, <%= p('zipkin.collector.admin_port') %>, serverAddress)
+
+CollectorServiceBuilder(interface = Scribe.Interface(categories = Set("zipkin")), serverBuilder = serverBuilder)
+  .writeTo(storeBuilder)
+  .queueMaxSize(<%= p('zipkin.collector.queue_max_zize') %>)
+  .queueNumWorkers(<%= p('zipkin.collector.queue_num_workers') %>)

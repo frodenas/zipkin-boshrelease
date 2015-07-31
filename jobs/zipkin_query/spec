@@ -1,0 +1,46 @@
+---
+name: zipkin_query
+
+packages:
+  - bosh-helpers
+  - java
+  - scala
+  - zipkin_query
+
+templates:
+  bin/job_properties.sh.erb: bin/job_properties.sh
+  bin/zipkin_query_ctl.erb: bin/zipkin_query_ctl
+  config/query.scala.erb: config/query.scala
+
+properties:
+  zipkin.query.user:
+    description: "User which will own the Zipkin Query services"
+    default: "root"
+  zipkin.query.group:
+    description: "Group which will own the Zipkin Query services"
+    default: "vcap"
+  zipkin.query.java_heap_size:
+    description: "Java Heap Size for Zipkin Query"
+    default: "512m"
+  zipkin.query.server_port:
+    description: "Zipkin Query server port"
+    default: 9411
+  zipkin.query.admin_port:
+    description: "Zipkin Query admin port"
+    default: 9901
+
+  redis.address:
+    description: "Redis address"
+    default: "127.0.0.1"
+  redis.port:
+    description: "Redis port"
+    default: 6379
+
+  zookeeper.servers:
+    description: "List of all Apache Zookeeper server host IP/hostnames"
+  zookeeper.client_port:
+    description: "Port at which the clients will connect to Apache Zookeeper"
+    default: 2181
+  zookeeper.zk_state:
+    description: "Path in ZooKeeper for storing Zipkin state"
+    default: "/zipkin"

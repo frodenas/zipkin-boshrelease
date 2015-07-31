@@ -1,0 +1,43 @@
+---
+name: zipkin_collector
+
+packages:
+  - bosh-helpers
+  - java
+  - scala
+  - zipkin_collector
+
+templates:
+  bin/job_properties.sh.erb: bin/job_properties.sh
+  bin/zipkin_collector_ctl.erb: bin/zipkin_collector_ctl
+  config/collector.scala.erb: config/collector.scala
+
+properties:
+  zipkin.collector.user:
+    description: "User which will own the Zipkin Collector services"
+    default: "root"
+  zipkin.collector.group:
+    description: "Group which will own the Zipkin Collector services"
+    default: "vcap"
+  zipkin.collector.java_heap_size:
+    description: "Java Heap Size for Zipkin Collector"
+    default: "512m"
+  zipkin.collector.server_port:
+    description: "Zipkin Collector server port"
+    default: 9410
+  zipkin.collector.admin_port:
+    description: "Zipkin Collector admin port"
+    default: 9900
+  zipkin.collector.queue_max_zize:
+    description: "Path in ZooKeeper for storing state"
+    default: 500
+  zipkin.collector.queue_num_workers:
+    description: "Path in ZooKeeper for storing state"
+    default: 10
+
+  redis.address:
+    description: "Redis address"
+    default: "127.0.0.1"
+  redis.port:
+    description: "Redis port"
+    default: 6379

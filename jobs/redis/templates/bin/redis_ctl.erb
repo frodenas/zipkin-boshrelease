@@ -1,0 +1,39 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+
+# Setup common env vars and folders
+source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'redis'
+export REDIS_PID_FILE=${REDIS_PID_DIR}/redis.pid
+
+case $1 in
+
+  start)
+    pid_guard ${REDIS_PID_FILE} ${JOB_NAME}
+
+    # Create Redis user & group
+    create_group ${REDIS_GROUP}
+    create_user ${REDIS_USER} ${REDIS_GROUP}
+
+    # Enable logrotate crontab
+    (crontab -l | sed /redis.*logrotate/d; cat ${REDIS_CONF_DIR}/redis_logrotate.cron) | sed /^$/d | crontab
+
+    # Start Redis service
+    exec chpst -u ${REDIS_USER}:${REDIS_GROUP} \
+         redis-server ${REDIS_CONF_DIR}/redis.conf \
+         >>${REDIS_LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
+         2>>${REDIS_LOG_DIR}/${OUTPUT_LABEL}.stderr.log
+    ;;
+
+  stop)
+    # Stop Redis service
+    kill_and_wait ${REDIS_PID_FILE}
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+
+esac
+exit 0

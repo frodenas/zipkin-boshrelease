@@ -1,0 +1,29 @@
+---
+java/jdk-1.7.0_51.tar.gz:
+  object_id: 7b71b631-ef15-4774-8286-336ca29733b2
+  sha: bee3b085a90439c833ce18e138c9f1a615152891
+  size: 138199690
+redis/redis-3.0.3.tar.gz:
+  object_id: 9ff88fab-8e7f-4525-ac4a-803baa655dd0
+  sha: 0e2d7707327986ae652df717059354b358b83358
+  size: 1360959
+scala/scala-2.11.7.tgz:
+  object_id: 04a93a32-31d7-4a61-87fb-0d303d942dde
+  sha: 33de6d4bd3423be9e02465b842b9afc635e7cf0f
+  size: 28460530
+zipkin/zipkin-collector-service-1.1.0.zip:
+  object_id: 7283fc5c-3ed2-4ff5-afa2-07a7ed1d8101
+  sha: 3003861d52c3fb06f8cb9702984a801e1699fa34
+  size: 56950103
+zipkin/zipkin-query-service-1.1.0.zip:
+  object_id: cedb7361-7a60-4165-a8f9-51af7059c6a0
+  sha: c794e207d29cf00b6fa9f4b9663c6402b635375f
+  size: 54568567
+zipkin/zipkin-web-1.1.0.zip:
+  object_id: 1dec6f48-b75c-4406-b0d0-4986fd4c6a0e
+  sha: 300a04381ae4559d2b6dec04b06881154b49d3d5
+  size: 42593700
+zookeeper/zookeeper-3.4.6.tar.gz:
+  object_id: 5c49f0c0-dcc7-4fb2-bb47-b2cc76f5332b
+  sha: 2a9e53f5990dfe0965834a525fbcad226bf93474
+  size: 17699306

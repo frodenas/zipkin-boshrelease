@@ -1,0 +1,1 @@
+<%= p('redis.logrotate.frequency') %> test -x /usr/sbin/logrotate && /usr/sbin/logrotate --state /var/vcap/sys/tmp/redis/logrotate.status /var/vcap/jobs/redis/config/logrotate.conf >>/var/vcap/sys/log/redis/redis_logrotate_cron.log 2>&1d

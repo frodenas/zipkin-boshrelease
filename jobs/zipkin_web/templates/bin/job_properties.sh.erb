@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+#
+# Zipkin Web properties
+#
+
+# Directory to store the Zipkin Web configuration files
+export ZIPKIN_WEB_CONF_DIR=${JOB_DIR}/config
+
+# Directory to store the Zipkin Web log files
+export ZIPKIN_WEB_LOG_DIR=${LOG_DIR}
+
+# Directory to store the Zipkin Web process IDs
+export ZIPKIN_WEB_PID_DIR=${RUN_DIR}
+
+# Directory to store the Zipkin Web data files
+export ZIPKIN_WEB_STORE_DIR=${STORE_DIR}
+
+# Directory to store the Zipkin Web temp files
+export ZIPKIN_WEB_TMP_DIR=${TMP_DIR}
+
+# User which will own the Zipkin Web services
+export ZIPKIN_WEB_USER="<%= p('zipkin.web.user') %>"
+
+# Group which will own the Zipkin Web services
+export ZIPKIN_WEB_GROUP="<%= p('zipkin.web.group') %>"
+
+# Java Heap Size for Zipkin Web
+export ZIPKIN_WEB_JAVA_HEAP_SIZE="<%= p('zipkin.web.java_heap_size') %>"

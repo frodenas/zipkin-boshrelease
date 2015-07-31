@@ -1,0 +1,20 @@
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Detect # of CPUs so make jobs can be parallelized
+CPUS=`grep -c ^processor /proc/cpuinfo`
+
+# We grab the latest versions that are in the directory
+ZIPKIN_COLLECTOR_VERSION=`ls -r zipkin/zipkin-collector-service-*.zip | sed 's/zipkin\/zipkin-collector-service-\(.*\)\.zip/\1/' | head -1`
+
+# Extract Zipkin Collector package
+echo "Extracting Zipkin Collector ${ZIPKIN_COLLECTOR_VERSION}..."
+unzip ${BOSH_COMPILE_TARGET}/zipkin/zipkin-collector-service-${ZIPKIN_COLLECTOR_VERSION}.zip
+if [[ $? != 0 ]] ; then
+  echo "Failed extracting Zipkin Collector ${ZIPKIN_COLLECTOR_VERSION}"
+  exit 1
+fi
+
+# Copy Zipkin Collector package
+echo "Copying Zipkin Collector ${ZIPKIN_COLLECTOR_VERSION}..."
+cp -a ${BOSH_COMPILE_TARGET}/zipkin-collector-service-${ZIPKIN_COLLECTOR_VERSION}/* ${BOSH_INSTALL_TARGET}/

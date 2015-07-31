@@ -1,0 +1,5 @@
+check process zipkin_web
+  with pidfile /var/vcap/sys/run/zipkin_web/zipkin_web.pid
+  start program "/var/vcap/packages/bosh-helpers/monit_debugger zipkin_web_ctl '/var/vcap/jobs/zipkin_web/bin/zipkin_web_ctl start'"
+  stop program "/var/vcap/packages/bosh-helpers/monit_debugger zipkin_web_ctl '/var/vcap/jobs/zipkin_web/bin/zipkin_web_ctl stop'"
+  group vcap

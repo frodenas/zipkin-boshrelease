@@ -1,0 +1,50 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+
+# Setup common env vars and folders
+source /var/vcap/packages/bosh-helpers/ctl_setup.sh 'zipkin_web'
+export ZIPKIN_WEB_PID_FILE=${ZIPKIN_WEB_PID_DIR}/zipkin_web.pid
+
+case $1 in
+
+  start)
+    pid_guard ${ZIPKIN_WEB_PID_FILE} ${JOB_NAME}
+    echo $$ > ${ZIPKIN_WEB_PID_FILE}
+
+    # Create Zipkin Web user & group
+    create_group ${ZIPKIN_WEB_GROUP}
+    create_user ${ZIPKIN_WEB_USER} ${ZIPKIN_WEB_GROUP}
+
+    # HACK: extract resources
+    unzip -u /var/vcap/packages/zipkin_web/zipkin-web-1.1.0.jar public/* templates/* -d /var/vcap/sys/tmp/zipkin_web/resources
+
+    # Find Zipkin Web jar
+    zikpkin_web_jar=`ls -r /var/vcap/packages/zipkin_web/zipkin-web-*.jar | grep -v test | head -1`
+
+    # Start Zipkin Web service
+    exec chpst -u ${ZIPKIN_WEB_USER}:${ZIPKIN_WEB_GROUP} java \
+           -Xmx"${ZIPKIN_WEB_JAVA_HEAP_SIZE}" \
+           -Xms"${ZIPKIN_WEB_JAVA_HEAP_SIZE}" \
+           -Dfile.encoding=UTF-8 \
+           -Djava.io.tmpdir=${ZIPKIN_WEB_TMP_DIR} \
+           -cp "/var/vcap/packages/zipkin_web/libs/*" \
+           -jar "${zikpkin_web_jar}" \
+           -f ${ZIPKIN_WEB_CONF_DIR}/web.scala \
+           -D local_docroot=/var/vcap/sys/tmp/zipkin_web/resources \
+           >>${ZIPKIN_WEB_LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
+           2>>${ZIPKIN_WEB_LOG_DIR}/${OUTPUT_LABEL}.stderr.log
+    ;;
+
+  stop)
+    # Stop Zipkin Web service
+    kill_and_wait ${ZIPKIN_WEB_PID_FILE}
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+
+esac
+exit 0

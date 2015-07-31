@@ -1,0 +1,5 @@
+check process zipkin_query
+  with pidfile /var/vcap/sys/run/zipkin_query/zipkin_query.pid
+  start program "/var/vcap/packages/bosh-helpers/monit_debugger zipkin_query_ctl '/var/vcap/jobs/zipkin_query/bin/zipkin_query_ctl start'"
+  stop program "/var/vcap/packages/bosh-helpers/monit_debugger zipkin_query_ctl '/var/vcap/jobs/zipkin_query/bin/zipkin_query_ctl stop'"
+  group vcap
