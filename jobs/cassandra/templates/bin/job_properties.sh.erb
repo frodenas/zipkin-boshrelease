@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+#
+# Cassandra properties
+#
+
+# Directory to store the Cassandra configuration files
+export CASSANDRA_CONF_DIR=${JOB_DIR}/config
+
+# Directory to store the Cassandra log files
+export CASSANDRA_LOG_DIR=${LOG_DIR}
+
+# Directory to store the Cassandra process IDs
+export CASSANDRA_PID_DIR=${RUN_DIR}
+
+# Directory to store the Cassandra data files
+export CASSANDRA_STORE_DIR=${STORE_DIR}
+
+# Directory to store the Cassandra temp files
+export CASSANDRA_TMP_DIR=${TMP_DIR}
+
+# User which will own the Cassandra services
+export CASSANDRA_USER="<%= p('cassandra.user') %>"
+
+# Group which will own the Cassandra services
+export CASSANDRA_GROUP="<%= p('cassandra.group') %>"
+
+# Java Heap Size for Cassandra
+export CASSANDRA_JAVA_HEAP_SIZE="<%= p('cassandra.java_heap_size') %>"
+
+# JJava Heap Young Generation Size for Cassandraa
+export CASSANDRA_JAVA_HEAP_NEW_SIZE="<%= p('cassandra.java_heap_new_size') %>"

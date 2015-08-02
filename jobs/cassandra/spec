@@ -1,0 +1,30 @@
+---
+name: cassandra
+
+packages:
+  - bosh-helpers
+  - cassandra
+  - java
+
+templates:
+  bin/job_properties.sh.erb: bin/job_properties.sh
+  bin/cassandra_ctl.erb: bin/cassandra_ctl
+  config/cassandra.yaml.erb: config/cassandra.yaml
+  config/logback.xml: config/logback.xml
+
+properties:
+  cassandra.user:
+    description: "User which will own the Cassandra services"
+    default: "root"
+  cassandra.group:
+    description: "Group which will own the Cassandra services"
+    default: "vcap"
+  cassandra.java_heap_size:
+    description: "Java Heap Size for Cassandra"
+    default: "1870M"
+  cassandra.java_heap_new_size:
+    description: "Java Heap Young Generation Size for Cassandra"
+    default: "200M"
+  cassandra.cluster_name:
+    description: "Human readable name for the Cassandra cluster"
+    default: "Cassandra Cluster"
