@@ -35,6 +35,16 @@ properties:
     description: "Path in ZooKeeper for storing state"
     default: 10
 
+  zipkin.store:
+    description: "Zipkin store (cassandra|redis)"
+
+  cassandra.servers:
+    description: "List of all Cassandra server host IP/hostnames"
+    default: ["127.0.0.1"]
+  cassandra.port:
+    description: "Cassandra port"
+    default: 9160
+
   redis.address:
     description: "Redis address"
     default: "127.0.0.1"

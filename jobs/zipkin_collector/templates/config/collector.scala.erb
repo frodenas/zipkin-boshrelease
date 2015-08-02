@@ -30,14 +30,26 @@ public_ip = vip_network.nil? ? private_ip : vip_network[:ip]
 
 import com.twitter.zipkin.builder.{Scribe, ZipkinServerBuilder}
 import com.twitter.zipkin.collector.builder.CollectorServiceBuilder
+import com.twitter.zipkin.cassandra
 import com.twitter.zipkin.redis
 import com.twitter.zipkin.storage.Store
 import java.net.InetAddress
 
+<% if p('zipkin.store') == 'cassandra' %>
+val keyspaceBuilder = cassandra.Keyspace.static(nodes = Set(<%= p('cassandra.servers').map { |server| "\"#{server}\"" }.join(',') %>), port = <%= p('cassandra.port') %>)
+val storeBuilder = Store.Builder(
+  cassandra.StorageBuilder(keyspaceBuilder),
+  cassandra.IndexBuilder(keyspaceBuilder),
+  cassandra.AggregatesBuilder(keyspaceBuilder)
+)
+<% end %>
+
+<% if p('zipkin.store') == 'redis' %>
 val storeBuilder = Store.Builder(
   redis.StorageBuilder("<%= p('redis.address') %>", <%= p('redis.port') %>),
   redis.IndexBuilder("<%= p('redis.address') %>", <%= p('redis.port') %>)
 )
+<% end %>
 
 val serverAddress = InetAddress.getByName("<%= private_ip %>")
 val serverBuilder = ZipkinServerBuilder(<%= p('zipkin.collector.server_port') %>, <%= p('zipkin.collector.admin_port') %>, serverAddress)
