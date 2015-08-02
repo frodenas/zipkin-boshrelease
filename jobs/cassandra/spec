@@ -28,3 +28,18 @@ properties:
   cassandra.cluster_name:
     description: "Human readable name for the Cassandra cluster"
     default: "Cassandra Cluster"
+  cassandra.port:
+    description: "Cassandra RPC port"
+    default: 9160
+  cassandra.cql_port:
+    description: "Cassandra CQL port"
+    default: 9042
+  cassandra.storage_port:
+    description: "Cassandra commands and data port"
+    default: 7000
+  cassandra.num_tokens:
+    description: "The number of tokens randomly assigned to nodes on the ring"
+    default: 256
+  cassandra.seed_servers:
+    description: "List of all Cassandra seed server host IP/hostnames"
+    default: ["127.0.0.1"]
