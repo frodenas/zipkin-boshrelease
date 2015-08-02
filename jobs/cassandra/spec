@@ -7,10 +7,13 @@ packages:
   - java
 
 templates:
-  bin/job_properties.sh.erb: bin/job_properties.sh
   bin/cassandra_ctl.erb: bin/cassandra_ctl
+  bin/job_properties.sh.erb: bin/job_properties.sh
+  bin/zipkin_schema_ctl.erb: bin/zipkin_schema_ctl
   config/cassandra.yaml.erb: config/cassandra.yaml
+  config/cqlshrc.erb: config/cqlshrc
   config/logback.xml: config/logback.xml
+  config/zipkin-schema.cdl: config/zipkin-schema.cdl
 
 properties:
   cassandra.user:

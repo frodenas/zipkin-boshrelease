@@ -3,3 +3,9 @@ check process cassandra
   start program "/var/vcap/packages/bosh-helpers/monit_debugger cassandra_ctl '/var/vcap/jobs/cassandra/bin/cassandra_ctl start'"
   stop program "/var/vcap/packages/bosh-helpers/monit_debugger cassandra_ctl '/var/vcap/jobs/cassandra/bin/cassandra_ctl stop'"
   group vcap
+
+check file zipkin_schema path /var/vcap/sys/run/cassandra/zipkin_schema.check
+  start program "/var/vcap/packages/bosh-helpers/monit_debugger zipkin_schema_ctl '/var/vcap/jobs/cassandra/bin/zipkin_schema_ctl start'"
+  stop program "/var/vcap/packages/bosh-helpers/monit_debugger zipkin_schema_ctl '/var/vcap/jobs/cassandra/bin/zipkin_schema_ctl stop'"
+  group vcap
+  depends on cassandra
