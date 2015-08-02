@@ -21,7 +21,7 @@ bosh upload release releases/zipkin/zipkin-1.yml
 
 ### Create a BOSH deployment manifest
 
-Now create a deployment file (using the files at the [examples](https://github.com/frodenas/zipkin-boshrelease/tree/master/examples) directory as a starting point).
+Now create a deployment file (using the files at the [examples](https://github.com/frodenas/zipkin-boshrelease/tree/master/examples) directory as a starting point). You can use either a `redis` or `cassandra` store backend.
 
 ### Deploy using the BOSH deployment manifest
 

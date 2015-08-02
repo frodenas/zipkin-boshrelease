@@ -1,0 +1,208 @@
+<%
+director_uuid = 'CHANGE-ME'
+deployment_name = 'zipkin'
+%>
+---
+name: <%= deployment_name %>
+director_uuid: <%= director_uuid %>
+
+releases:
+ - name: zipkin
+   version: latest
+
+compilation:
+  workers: 3
+  network: default
+  reuse_compilation_vms: true
+  cloud_properties: {}
+
+update:
+  canaries: 0
+  canary_watch_time: 30000-60000
+  update_watch_time: 30000-60000
+  max_in_flight: 32
+  serial: false
+
+networks:
+  - name: default
+    type: manual
+    subnets:
+      - cloud_properties: {}
+        range: 10.244.0.0/30
+        reserved:
+          - 10.244.0.1
+        static:
+          - 10.244.0.2
+
+      - cloud_properties: {}
+        name: random
+        range: 10.244.0.4/30
+        reserved:
+          - 10.244.0.5
+        static:
+          - 10.244.0.6
+
+      - cloud_properties: {}
+        name: random
+        range: 10.244.0.8/30
+        reserved:
+          - 10.244.0.9
+        static:
+          - 10.244.0.10
+
+      - cloud_properties: {}
+        name: random
+        range: 10.244.0.12/30
+        reserved:
+          - 10.244.0.13
+        static:
+          - 10.244.0.14
+
+      - cloud_properties: {}
+        name: random
+        range: 10.244.0.16/30
+        reserved:
+          - 10.244.0.17
+        static:
+          - 10.244.0.18
+
+      - cloud_properties: {}
+        name: random
+        range: 10.244.0.20/30
+        reserved:
+          - 10.244.0.21
+        static:
+          - 10.244.0.22
+
+      - cloud_properties: {}
+        name: random
+        range: 10.244.0.24/30
+        reserved:
+          - 10.244.0.25
+        static:
+          - 10.244.0.26
+
+      - cloud_properties: {}
+        name: random
+        range: 10.244.0.28/30
+        reserved:
+          - 10.244.0.29
+        static:
+          - 10.244.0.30
+
+      - cloud_properties: {}
+        name: random
+        range: 10.244.0.32/30
+        reserved:
+          - 10.244.0.33
+        static:
+          - 10.244.0.34
+
+      - cloud_properties: {}
+        name: random
+        range: 10.244.0.36/30
+        reserved:
+          - 10.244.0.37
+
+      - cloud_properties: {}
+        name: random
+        range: 10.244.0.40/30
+        reserved:
+          - 10.244.0.41
+
+      - cloud_properties: {}
+        name: random
+        range: 10.244.0.44/30
+        reserved:
+          - 10.244.0.45
+
+resource_pools:
+  - name: default
+    network: default
+    stemcell:
+      name: bosh-warden-boshlite-ubuntu-trusty-go_agent
+      version: latest
+    cloud_properties: {}
+
+jobs:
+  - name: zookeeper
+    templates:
+      - name: zookeeper
+    instances: 3
+    resource_pool: default
+    persistent_disk: 10240
+    networks:
+      - name: default
+        default: [dns, gateway]
+        static_ips:
+          - 10.244.0.2
+          - 10.244.0.6
+          - 10.244.0.10
+
+  - name: cassandra
+    templates:
+      - name: cassandra
+    instances: 3
+    resource_pool: default
+    persistent_disk: 10240
+    networks:
+      - name: default
+        default: [dns, gateway]
+        static_ips:
+          - 10.244.0.14
+          - 10.244.0.18
+          - 10.244.0.22
+
+  - name: zipkin_collector
+    templates:
+      - name: zipkin_collector
+    instances: 1
+    resource_pool: default
+    networks:
+      - name: default
+        default: [dns, gateway]
+        static_ips:
+          - 10.244.0.26
+
+  - name: zipkin_query
+    templates:
+      - name: zipkin_query
+    instances: 1
+    resource_pool: default
+    networks:
+      - name: default
+        default: [dns, gateway]
+        static_ips:
+          - 10.244.0.30
+
+  - name: zipkin_web
+    templates:
+      - name: zipkin_web
+    instances: 1
+    resource_pool: default
+    networks:
+      - name: default
+        default: [dns, gateway]
+        static_ips:
+          - 10.244.0.34
+
+properties:
+  zipkin:
+    store: 'cassandra'
+
+  zookeeper:
+    servers:
+      - 10.244.0.2
+      - 10.244.0.6
+      - 10.244.0.10
+
+  cassandra:
+    seed_servers:
+      - 10.244.0.14
+      - 10.244.0.18
+      - 10.244.0.22
+
+    servers:
+      - 10.244.0.14
+      - 10.244.0.18
+      - 10.244.0.22

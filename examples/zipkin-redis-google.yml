@@ -1,0 +1,116 @@
+<%
+director_uuid = 'CHANGE-ME'
+deployment_name = 'zipkin'
+static_ip = 'CHANGE-ME'
+num_zookeepers = 3 # Odd number
+num_collectors = 3
+num_queries = 3
+%>
+---
+name: <%= deployment_name %>
+director_uuid: <%= director_uuid %>
+
+releases:
+ - name: zipkin
+   version: latest
+
+compilation:
+  workers: 3
+  network: default
+  reuse_compilation_vms: true
+  cloud_properties:
+    machine_type: n1-standard-8
+    preemptible: true
+
+update:
+  canaries: 0
+  canary_watch_time: 30000-60000
+  update_watch_time: 30000-60000
+  max_in_flight: 32
+  serial: false
+
+networks:
+  - name: default
+    type: dynamic
+    cloud_properties:
+      ephemeral_external_ip: true
+      tags:
+        - bosh
+        - <%= deployment_name %>
+
+  - name: static
+    type: vip
+    cloud_properties: {}
+
+resource_pools:
+  - name: default
+    network: default
+    stemcell:
+      name: bosh-google-kvm-ubuntu-trusty-go_agent
+      version: latest
+    cloud_properties:
+      machine_type: n1-standard-2
+
+jobs:
+  - name: zookeeper
+    templates:
+      - name: zookeeper
+    instances: <%= num_zookeepers %>
+    resource_pool: default
+    persistent_disk: 10240
+    networks:
+      - name: default
+        default: [dns, gateway]
+
+  - name: redis
+    templates:
+      - name: redis
+    instances: 1
+    resource_pool: default
+    persistent_disk: 10240
+    networks:
+      - name: default
+        default: [dns, gateway]
+
+  - name: zipkin_collector
+    templates:
+      - name: zipkin_collector
+    instances: <%= num_collectors %>
+    resource_pool: default
+    networks:
+      - name: default
+        default: [dns, gateway]
+
+  - name: zipkin_query
+    templates:
+      - name: zipkin_query
+    instances: <%= num_queries %>
+    resource_pool: default
+    networks:
+      - name: default
+        default: [dns, gateway]
+
+  - name: zipkin_web
+    templates:
+      - name: zipkin_web
+    instances: 1
+    resource_pool: default
+    networks:
+      - name: default
+        default: [dns, gateway]
+      - name: static
+        static_ips:
+          - <%= static_ip %>
+
+properties:
+  zipkin:
+    store: 'redis'
+
+  zookeeper:
+    servers:
+      <% num_zookeepers.times do |i| %>
+      <%= "- #{i}.zookeeper.default.#{deployment_name}.microbosh\n" %>
+      <% end %>
+
+  redis:
+    address: 0.redis.default.<%= deployment_name %>.microbosh
