@@ -29,13 +29,23 @@ public_ip = vip_network.nil? ? private_ip : vip_network[:ip]
 %>
 
 import com.twitter.zipkin.builder.{QueryClient, WebBuilder, ZipkinServerBuilder, ZooKeeperClientBuilder}
+import com.twitter.logging._
 import java.net.InetAddress
 
 val zkClientBuilder = ZooKeeperClientBuilder(Seq(<%= p('zookeeper.servers').map { |server| "\"#{server}\"" }.join(',') %>), <%= p('zookeeper.client_port') %>)
 val queryClientBuilder = QueryClient.zookeeper(zkClientBuilder, "<%= p('zookeeper.zk_state') %>")
 
+val loggers = List(LoggerFactory(level = Some(Level.<%= p('zipkin.web.loglevel') %>),
+  handlers = List(FileHandler(
+    filename = "/var/vcap/sys/log/zipkin_web/zipkin_web.log",
+    rollPolicy = Policy.<%= p('zipkin.web.logrotate.frequency') %>,
+    append = true,
+    rotateCount = <%= p('zipkin.web.logrotate.rotate') %>
+  ))
+))
+
 val serverAddress = InetAddress.getByName("<%= private_ip %>")
-val serverBuilder = ZipkinServerBuilder(<%= p('zipkin.web.server_port') %>, <%= p('zipkin.web.admin_port') %>, serverAddress)
+val serverBuilder = ZipkinServerBuilder(<%= p('zipkin.web.server_port') %>, <%= p('zipkin.web.admin_port') %>, serverAddress, loggers)
 
 WebBuilder(rootUrl = "http://<%= public_ip %>:<%= p('zipkin.web.server_port') %>/", queryClientBuilder = queryClientBuilder, serverBuilder = serverBuilder)
   .resourcePathPrefix("<%= p('zipkin.web.resource_path_prefix') %>")

@@ -33,6 +33,7 @@ import com.twitter.zipkin.collector.builder.CollectorServiceBuilder
 import com.twitter.zipkin.cassandra
 import com.twitter.zipkin.redis
 import com.twitter.zipkin.storage.Store
+import com.twitter.logging._
 import java.net.InetAddress
 
 <% if p('zipkin.store') == 'cassandra' %>
@@ -51,8 +52,17 @@ val storeBuilder = Store.Builder(
 )
 <% end %>
 
+val loggers = List(LoggerFactory(level = Some(Level.<%= p('zipkin.collector.loglevel') %>),
+  handlers = List(FileHandler(
+    filename = "/var/vcap/sys/log/zipkin_collector/zipkin_collector.log",
+    rollPolicy = Policy.<%= p('zipkin.collector.logrotate.frequency') %>,
+    append = true,
+    rotateCount = <%= p('zipkin.collector.logrotate.rotate') %>
+  ))
+))
+
 val serverAddress = InetAddress.getByName("<%= private_ip %>")
-val serverBuilder = ZipkinServerBuilder(<%= p('zipkin.collector.server_port') %>, <%= p('zipkin.collector.admin_port') %>, serverAddress)
+val serverBuilder = ZipkinServerBuilder(<%= p('zipkin.collector.server_port') %>, <%= p('zipkin.collector.admin_port') %>, serverAddress, loggers)
 
 CollectorServiceBuilder(interface = Scribe.Interface(categories = Set("zipkin")), serverBuilder = serverBuilder)
   .writeTo(storeBuilder)

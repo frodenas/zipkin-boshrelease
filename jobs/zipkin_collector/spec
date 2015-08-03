@@ -29,11 +29,20 @@ properties:
     description: "Zipkin Collector admin port"
     default: 9900
   zipkin.collector.queue_max_zize:
-    description: "Path in ZooKeeper for storing state"
+    description: "Zipkin Collector max size"
     default: 500
   zipkin.collector.queue_num_workers:
-    description: "Path in ZooKeeper for storing state"
+    description: "Zipkin Collector num workers"
     default: 10
+  zipkin.collector.loglevel:
+    description: "Zipkin Collector log level (OFF, FATAL, CRITICAL, ERROR, WARNING, INFO, DEBUG, TRACE, ALL)"
+    default: "INFO"
+  zipkin.collector.logrotate.frequency:
+    description: "Frequency of Zipkin Collector log files rotation (Never, Hourly, Daily, SigHup)"
+    default: "Daily"
+  zipkin.collector.logrotate.rotate:
+    description: "Number of times Zipkin Collector log files are rotated before being removed"
+    default: "7"
 
   zipkin.store:
     description: "Zipkin store (cassandra|redis)"

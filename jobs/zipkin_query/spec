@@ -28,6 +28,15 @@ properties:
   zipkin.query.admin_port:
     description: "Zipkin Query admin port"
     default: 9901
+  zipkin.query.loglevel:
+    description: "Zipkin Query log level (OFF, FATAL, CRITICAL, ERROR, WARNING, INFO, DEBUG, TRACE, ALL)"
+    default: "INFO"
+  zipkin.query.logrotate.frequency:
+    description: "Frequency of Zipkin Query log files rotation (Never, Hourly, Daily, SigHup)"
+    default: "Daily"
+  zipkin.query.logrotate.rotate:
+    description: "Number of times Zipkin Query log files are rotated before being removed"
+    default: "7"
 
   zipkin.store:
     description: "Zipkin store (cassandra|redis)"

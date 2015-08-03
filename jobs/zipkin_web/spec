@@ -29,8 +29,17 @@ properties:
     description: "Zipkin Web admin port"
     default: 9902
   zipkin.web.resource_path_prefix:
-    description: ""
+    description: "Zipkin Web resource path prefix"
     default: "/public"
+  zipkin.web.loglevel:
+    description: "Zipkin Web log level (OFF, FATAL, CRITICAL, ERROR, WARNING, INFO, DEBUG, TRACE, ALL)"
+    default: "INFO"
+  zipkin.web.logrotate.frequency:
+    description: "Frequency of Zipkin Web log files rotation (Never, Hourly, Daily, SigHup)"
+    default: "Daily"
+  zipkin.web.logrotate.rotate:
+    description: "Number of times Zipkin Web log files are rotated before being removed"
+    default: "7"
 
   zookeeper.servers:
     description: "List of all Apache Zookeeper server host IP/hostnames"
