@@ -1,0 +1,80 @@
+---
+packages:
+- name: bosh-helpers
+  version: 2e315fb7cbca15e9be6f8f176cc5d3268b89d4ef
+  fingerprint: 2e315fb7cbca15e9be6f8f176cc5d3268b89d4ef
+  sha1: f549cb78339eb93384367b9e0c7a1c9102ae39a6
+  dependencies: []
+- name: cassandra
+  version: 34a6a8cb6d803e0ff365184eeecce975dcae2719
+  fingerprint: 34a6a8cb6d803e0ff365184eeecce975dcae2719
+  sha1: 4535f537068e6b3a6532b4d84107a07b2a8d4325
+  dependencies: []
+- name: java
+  version: dc4e4256bc816e3cc5c18d7dff1d213f3a2305fc
+  fingerprint: dc4e4256bc816e3cc5c18d7dff1d213f3a2305fc
+  sha1: 64b015513ebfa4998d5e25663c36348a7e2a9263
+  dependencies: []
+- name: redis
+  version: d82d187b63ec2a2f5221b7440c85fd05c3b3a036
+  fingerprint: d82d187b63ec2a2f5221b7440c85fd05c3b3a036
+  sha1: 13ca57f291cdf74807da1d071bd45f49af03c297
+  dependencies: []
+- name: scala
+  version: c8d47f38692fcccedb90531059129e7404be3a62
+  fingerprint: c8d47f38692fcccedb90531059129e7404be3a62
+  sha1: 48da9edf02da440f282ace6ab07dc98a020db060
+  dependencies: []
+- name: zipkin_collector
+  version: fb1ab895f861a6fb5d1f4c06b7afa0699978f8e5
+  fingerprint: fb1ab895f861a6fb5d1f4c06b7afa0699978f8e5
+  sha1: 3213344d90abeb81ea8213cebf5001034a2b8330
+  dependencies: []
+- name: zipkin_query
+  version: 7524e6b7655b115e84314d80e1193cf41c1e1c0b
+  fingerprint: 7524e6b7655b115e84314d80e1193cf41c1e1c0b
+  sha1: d3c6bbed017afbd448e49c79ecafb884e63f2ecb
+  dependencies: []
+- name: zipkin_web
+  version: 6b4d4139cc6c63469a326512d4d9c3e72f0262d8
+  fingerprint: 6b4d4139cc6c63469a326512d4d9c3e72f0262d8
+  sha1: 37b58228e9886454bb4cf31704bb0973d86329ad
+  dependencies: []
+- name: zookeeper
+  version: 383a2ffe2d9aeda1882f40ee805a41eca325fbbf
+  fingerprint: 383a2ffe2d9aeda1882f40ee805a41eca325fbbf
+  sha1: 37e6f5a1ae3798f42c6391354ffa49f63028a639
+  dependencies: []
+jobs:
+- name: cassandra
+  version: 60e783de8a33626413363ee39df6c95084899012
+  fingerprint: 60e783de8a33626413363ee39df6c95084899012
+  sha1: 1ed875b9599a42d51228eaf3e4e2f628a3df12cf
+- name: redis
+  version: e1d08ecfc919befeda83620bc0fbe6f81c37f75f
+  fingerprint: e1d08ecfc919befeda83620bc0fbe6f81c37f75f
+  sha1: ca89895ab9f47a8aef00c5455ed5a3834fb8c12a
+- name: zipkin_collector
+  version: e32d640d94d38d14968d6c914bed6695a078b289
+  fingerprint: e32d640d94d38d14968d6c914bed6695a078b289
+  sha1: 65fcf297f1a825ea03d9e2a53e5e3d0181362c62
+- name: zipkin_query
+  version: f668c7f854aef64d061caaa13ca24c98434c272d
+  fingerprint: f668c7f854aef64d061caaa13ca24c98434c272d
+  sha1: 7c212b1a8fc61c03ad940e999d2de8d0ac712514
+- name: zipkin_web
+  version: e23b9deb430c50d490284990f89848b3640a14a7
+  fingerprint: e23b9deb430c50d490284990f89848b3640a14a7
+  sha1: 71be6e6c07a9bdc89f22d10c604a1e99ec96e122
+- name: zookeeper
+  version: f69f02780c8d9f1444bece2f904a3aea96b717b0
+  fingerprint: f69f02780c8d9f1444bece2f904a3aea96b717b0
+  sha1: ce1117c3945c73101bdb0c22d0809cf91187ea06
+license:
+  version: 177c113663fe9b8f50aa800f1858f3c1a59f635a
+  fingerprint: 177c113663fe9b8f50aa800f1858f3c1a59f635a
+  sha1: bcf3472c7f8abfbc1b53b6f1313c03d2b2b6804b
+commit_hash: d76b0ab8
+uncommitted_changes: true
+name: zipkin
+version: '2'
