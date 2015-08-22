@@ -25,7 +25,6 @@ case $1 in
            -Xms"${ZIPKIN_QUERY_JAVA_HEAP_SIZE}" \
            -Dfile.encoding=UTF-8 \
            -Djava.io.tmpdir=${ZIPKIN_QUERY_TMP_DIR} \
-           -cp "/var/vcap/packages/zipkin_query/libs/*" \
            -jar "${zikpkin_query_jar}" \
            -f ${ZIPKIN_QUERY_CONF_DIR}/query.scala \
            >>${ZIPKIN_QUERY_LOG_DIR}/${OUTPUT_LABEL}.stdout.log \

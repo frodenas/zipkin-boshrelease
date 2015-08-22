@@ -4,7 +4,6 @@ name: zipkin_query
 packages:
   - bosh-helpers
   - java
-  - scala
   - zipkin_query
 
 templates:
@@ -54,12 +53,3 @@ properties:
   redis.port:
     description: "Redis port"
     default: 6379
-
-  zookeeper.servers:
-    description: "List of all Apache Zookeeper server host IP/hostnames"
-  zookeeper.client_port:
-    description: "Port at which the clients will connect to Apache Zookeeper"
-    default: 2181
-  zookeeper.zk_state:
-    description: "Path in ZooKeeper for storing Zipkin state"
-    default: "/zipkin"
