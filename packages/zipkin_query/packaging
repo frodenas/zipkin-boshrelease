@@ -9,13 +9,8 @@ ZIPKIN_QUERY_VERSION=`ls -r zipkin/zipkin-query-service-*.zip | sed 's/zipkin\/z
 
 # Extract Zipkin Query package
 echo "Extracting Zipkin Query ${ZIPKIN_QUERY_VERSION}..."
-unzip ${BOSH_COMPILE_TARGET}/zipkin/zipkin-query-service-${ZIPKIN_QUERY_VERSION}.zip
+unzip ${BOSH_COMPILE_TARGET}/zipkin/zipkin-query-service-${ZIPKIN_QUERY_VERSION}.zip -d ${BOSH_INSTALL_TARGET}
 if [[ $? != 0 ]] ; then
   echo "Failed extracting Zipkin Query ${ZIPKIN_QUERY_VERSION}"
   exit 1
 fi
-
-# Copy Zipkin Query package
-echo "Copying Zipkin Query ${ZIPKIN_QUERY_VERSION}..."
-cp -a ${BOSH_COMPILE_TARGET}/zipkin-query-service-${ZIPKIN_QUERY_VERSION}/* ${BOSH_INSTALL_TARGET}/
-

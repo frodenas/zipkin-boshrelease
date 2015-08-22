@@ -2,4 +2,4 @@
 name: zipkin_web
 dependencies: {}
 files:
-  - zipkin/zipkin-web-1.1.0.zip
+  - zipkin/zipkin-web-1.2.2.zip

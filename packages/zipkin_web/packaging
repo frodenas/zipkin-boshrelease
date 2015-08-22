@@ -9,12 +9,8 @@ ZIPKIN_WEB_VERSION=`ls -r zipkin/zipkin-web-*.zip | sed 's/zipkin\/zipkin-web-\(
 
 # Extract Zipkin Web package
 echo "Extracting Zipkin Web ${ZIPKIN_WEB_VERSION}..."
-unzip ${BOSH_COMPILE_TARGET}/zipkin/zipkin-web-${ZIPKIN_WEB_VERSION}.zip
+unzip ${BOSH_COMPILE_TARGET}/zipkin/zipkin-web-${ZIPKIN_WEB_VERSION}.zip -d ${BOSH_INSTALL_TARGET}
 if [[ $? != 0 ]] ; then
   echo "Failed extracting Zipkin Web ${ZIPKIN_WEB_VERSION}"
   exit 1
 fi
-
-# Copy Zipkin Web package
-echo "Copying Zipkin Web ${ZIPKIN_WEB_VERSION}..."
-cp -a ${BOSH_COMPILE_TARGET}/zipkin-web-${ZIPKIN_WEB_VERSION}/* ${BOSH_INSTALL_TARGET}/

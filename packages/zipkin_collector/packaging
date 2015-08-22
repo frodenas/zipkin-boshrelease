@@ -9,12 +9,8 @@ ZIPKIN_COLLECTOR_VERSION=`ls -r zipkin/zipkin-collector-service-*.zip | sed 's/z
 
 # Extract Zipkin Collector package
 echo "Extracting Zipkin Collector ${ZIPKIN_COLLECTOR_VERSION}..."
-unzip ${BOSH_COMPILE_TARGET}/zipkin/zipkin-collector-service-${ZIPKIN_COLLECTOR_VERSION}.zip
+unzip ${BOSH_COMPILE_TARGET}/zipkin/zipkin-collector-service-${ZIPKIN_COLLECTOR_VERSION}.zip -d ${BOSH_INSTALL_TARGET}
 if [[ $? != 0 ]] ; then
   echo "Failed extracting Zipkin Collector ${ZIPKIN_COLLECTOR_VERSION}"
   exit 1
 fi
-
-# Copy Zipkin Collector package
-echo "Copying Zipkin Collector ${ZIPKIN_COLLECTOR_VERSION}..."
-cp -a ${BOSH_COMPILE_TARGET}/zipkin-collector-service-${ZIPKIN_COLLECTOR_VERSION}/* ${BOSH_INSTALL_TARGET}/

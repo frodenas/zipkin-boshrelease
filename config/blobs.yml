@@ -11,18 +11,6 @@ scala/scala-2.11.7.tgz:
   object_id: 04a93a32-31d7-4a61-87fb-0d303d942dde
   sha: 33de6d4bd3423be9e02465b842b9afc635e7cf0f
   size: 28460530
-zipkin/zipkin-collector-service-1.1.0.zip:
-  object_id: 7283fc5c-3ed2-4ff5-afa2-07a7ed1d8101
-  sha: 3003861d52c3fb06f8cb9702984a801e1699fa34
-  size: 56950103
-zipkin/zipkin-query-service-1.1.0.zip:
-  object_id: cedb7361-7a60-4165-a8f9-51af7059c6a0
-  sha: c794e207d29cf00b6fa9f4b9663c6402b635375f
-  size: 54568567
-zipkin/zipkin-web-1.1.0.zip:
-  object_id: 1dec6f48-b75c-4406-b0d0-4986fd4c6a0e
-  sha: 300a04381ae4559d2b6dec04b06881154b49d3d5
-  size: 42593700
 zookeeper/zookeeper-3.4.6.tar.gz:
   object_id: 5c49f0c0-dcc7-4fb2-bb47-b2cc76f5332b
   sha: 2a9e53f5990dfe0965834a525fbcad226bf93474
@@ -31,3 +19,15 @@ cassandra/apache-cassandra-2.1.8-bin.tar.gz:
   object_id: 8ecddc93-1dd0-4e8a-a053-98f235717471
   sha: 8fc0b4763487656793e9cb6016b939e0260e057e
   size: 24592258
+zipkin/zipkin-collector-service-1.2.2.zip:
+  object_id: 059e6ec3-f98f-4e89-87d4-d1071143fc56
+  sha: acc8644e00431da28fed3179ab849514b6f870c0
+  size: 56560305
+zipkin/zipkin-query-service-1.2.2.zip:
+  object_id: 4cc51db9-5379-4842-9fc0-6e2d012649f1
+  sha: a3049b92cb18a0988b9f380560ca8e8cc9c842c2
+  size: 50894070
+zipkin/zipkin-web-1.2.2.zip:
+  object_id: 707103f6-3330-46ab-b076-5ff531d8c9c7
+  sha: b6e18d83039de0a5213ac227aac2f9473aea6805
+  size: 42770211
