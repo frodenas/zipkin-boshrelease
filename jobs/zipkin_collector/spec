@@ -4,7 +4,6 @@ name: zipkin_collector
 packages:
   - bosh-helpers
   - java
-  - scala
   - zipkin_collector
 
 templates:

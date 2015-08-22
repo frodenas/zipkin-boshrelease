@@ -28,28 +28,32 @@ vip_network = networks.values.find { |net| net[:type] == 'vip' }
 public_ip = vip_network.nil? ? private_ip : vip_network[:ip]
 %>
 
+import com.twitter.app.App
+import com.twitter.finagle.builder.ClientBuilder
+import com.twitter.finagle.redis.{Client, Redis}
+import com.twitter.logging._
 import com.twitter.zipkin.builder.{Scribe, ZipkinServerBuilder}
-import com.twitter.zipkin.collector.builder.CollectorServiceBuilder
 import com.twitter.zipkin.cassandra
+import com.twitter.zipkin.cassandra.CassandraSpanStoreFactory
+import com.twitter.zipkin.collector.builder.CollectorServiceBuilder
 import com.twitter.zipkin.redis
 import com.twitter.zipkin.storage.Store
-import com.twitter.logging._
 import java.net.InetAddress
 
 <% if p('zipkin.store') == 'cassandra' %>
-val keyspaceBuilder = cassandra.Keyspace.static(nodes = Set(<%= p('cassandra.servers').map { |server| "\"#{server}\"" }.join(',') %>), port = <%= p('cassandra.port') %>)
-val storeBuilder = Store.Builder(
-  cassandra.StorageBuilder(keyspaceBuilder),
-  cassandra.IndexBuilder(keyspaceBuilder),
-  cassandra.AggregatesBuilder(keyspaceBuilder)
-)
+object Factory extends App with CassandraSpanStoreFactory
+Factory.cassandraDest.parse("<%= p('cassandra.servers').map { |server| "#{server}:#{p('cassandra.port')}" }.join(',') %>")
+val cluster = Factory.createClusterBuilder().build()
+val storeBuilder = Store.Builder(cassandra.SpanStoreBuilder(cluster))
 <% end %>
 
 <% if p('zipkin.store') == 'redis' %>
-val storeBuilder = Store.Builder(
-  redis.StorageBuilder("<%= p('redis.address') %>", <%= p('redis.port') %>),
-  redis.IndexBuilder("<%= p('redis.address') %>", <%= p('redis.port') %>)
-)
+val client = Client(ClientBuilder().hosts("<%= p('redis.address') %>:<%= p('redis.port') %>")
+                                   .hostConnectionLimit(40)
+                                   .hostConnectionCoresize(20)
+                                   .codec(Redis())
+                                   .build())
+val storeBuilder = Store.Builder(redis.SpanStoreBuilder(client))
 <% end %>
 
 val loggers = List(LoggerFactory(level = Some(Level.<%= p('zipkin.collector.loglevel') %>),

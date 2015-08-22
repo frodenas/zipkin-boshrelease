@@ -25,7 +25,6 @@ case $1 in
            -Xms"${ZIPKIN_COLLECTOR_JAVA_HEAP_SIZE}" \
            -Dfile.encoding=UTF-8 \
            -Djava.io.tmpdir=${ZIPKIN_COLLECTOR_TMP_DIR} \
-           -cp "/var/vcap/packages/zipkin_collector/libs/*" \
            -jar "${zikpkin_collector_jar}" \
            -f ${ZIPKIN_COLLECTOR_CONF_DIR}/collector.scala \
            >>${ZIPKIN_COLLECTOR_LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
