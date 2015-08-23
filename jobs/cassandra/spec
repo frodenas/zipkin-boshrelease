@@ -5,6 +5,7 @@ packages:
   - bosh-helpers
   - cassandra
   - java
+  - python
 
 templates:
   bin/cassandra_ctl.erb: bin/cassandra_ctl
