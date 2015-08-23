@@ -43,9 +43,9 @@ properties:
   cassandra.servers:
     description: "List of all Cassandra server host IP/hostnames"
     default: ["127.0.0.1"]
-  cassandra.port:
-    description: "Cassandra port"
-    default: 9160
+  cassandra.cql_port:
+    description: "Cassandra CQL port"
+    default: 9042
 
   redis.address:
     description: "Redis address"
