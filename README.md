@@ -1,10 +1,10 @@
 # Bosh release for Zipkin
 
-One of the fastest ways to get [Zipkin](http://openzipkin.github.io/zipkin/) running on any infrastructure is to deploy this BOSH release.
+One of the fastest ways to get [Zipkin](http://zipkin.io/) running on any infrastructure is to deploy this BOSH release.
 
 ## Disclaimer
 
-This is not presently a production ready [Zipkin](http://openzipkin.github.io/zipkin/) BOSH release. This is a work in progress. It is suitable for experimentation and may not become supported in the future.
+This is not presently a production ready [Zipkin](http://zipkin.io/) BOSH release. This is a work in progress. It is suitable for experimentation and may not become supported in the future.
 
 ## Usage
 
@@ -23,6 +23,17 @@ bosh upload release releases/zipkin/zipkin-2.yml
 
 Now create a deployment file (using the files at the [examples](https://github.com/frodenas/zipkin-boshrelease/tree/master/examples) directory as a starting point). You can use either a `redis` or `cassandra` store backend.
 
+Note that the examples requires you to open some ports, so you will need to:
+
+Create a security group (or the equivalent) named `bosh` with the following ports opened:
+* TCP 22, 4222, 6868, 25250, 25555, 25777 from 0.0.0.0 to enable BOSH to communicate with the agents
+* UDP 53 to enable using the BOSH DNS
+
+Create a security group (or the equivalent) named `zipkin` (or the name of your deployment) with the following ports opened:
+* All TCP/UDP ports from within the `zipkin` security group
+* TCP 80 from 0.0.0.0 to enable access to the Zipkin Web
+* TCP 9410 from 0.0.0.0 to enable sending traces to the Zipkin Collectors
+
 ### Deploy using the BOSH deployment manifest
 
 Using the previous created deployment manifest, now we can deploy it:
@@ -34,7 +45,7 @@ bosh -n deploy
 
 ### Feed data
 
-Use any compatible Zipkin [instrumented library](http://openzipkin.github.io/zipkin/Architecture.html#instrumented-libraries) (like [Spring Cloud Sleuth](https://github.com/spring-cloud/spring-cloud-sleuth)) to feed data into the Zipkin collectors.
+Use any compatible Zipkin [instrumented library](http://zipkin.io/Architecture.html#instrumented-libraries) (like [Spring Cloud Sleuth](https://github.com/spring-cloud/spring-cloud-sleuth)) to feed data into the Zipkin collectors.
 
 ## Contributing
 
@@ -100,5 +111,4 @@ git push origin master --tags
 
 ## Copyright
 
-See [LICENSE](https://github.com/frodenas/zipkin-boshrelease/blob/master/LICENSE) for details.
-Copyright (c) 2015 Ferran Rodenas.
+Copyright (c) 2015 Ferran Rodenas. See [LICENSE](https://github.com/frodenas/zipkin-boshrelease/blob/master/LICENSE) for details.
