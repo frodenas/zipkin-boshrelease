@@ -11,10 +11,6 @@ scala/scala-2.11.7.tgz:
   object_id: 04a93a32-31d7-4a61-87fb-0d303d942dde
   sha: 33de6d4bd3423be9e02465b842b9afc635e7cf0f
   size: 28460530
-zookeeper/zookeeper-3.4.6.tar.gz:
-  object_id: 5c49f0c0-dcc7-4fb2-bb47-b2cc76f5332b
-  sha: 2a9e53f5990dfe0965834a525fbcad226bf93474
-  size: 17699306
 cassandra/apache-cassandra-2.1.8-bin.tar.gz:
   object_id: 8ecddc93-1dd0-4e8a-a053-98f235717471
   sha: 8fc0b4763487656793e9cb6016b939e0260e057e
