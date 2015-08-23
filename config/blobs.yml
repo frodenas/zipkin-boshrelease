@@ -23,3 +23,7 @@ zipkin/zipkin-web-1.2.2.zip:
   object_id: 707103f6-3330-46ab-b076-5ff531d8c9c7
   sha: b6e18d83039de0a5213ac227aac2f9473aea6805
   size: 42770211
+python/Python-2.7.10.tgz:
+  object_id: c6171b5e-ee10-4a85-b861-fd3796b4119b
+  sha: 49089f1f6ab445dc8ace97beeb276095c4c8039b
+  size: 16768806
