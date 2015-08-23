@@ -7,10 +7,6 @@ redis/redis-3.0.3.tar.gz:
   object_id: 9ff88fab-8e7f-4525-ac4a-803baa655dd0
   sha: 0e2d7707327986ae652df717059354b358b83358
   size: 1360959
-scala/scala-2.11.7.tgz:
-  object_id: 04a93a32-31d7-4a61-87fb-0d303d942dde
-  sha: 33de6d4bd3423be9e02465b842b9afc635e7cf0f
-  size: 28460530
 cassandra/apache-cassandra-2.1.8-bin.tar.gz:
   object_id: 8ecddc93-1dd0-4e8a-a053-98f235717471
   sha: 8fc0b4763487656793e9cb6016b939e0260e057e
