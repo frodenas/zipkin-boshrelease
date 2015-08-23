@@ -53,3 +53,9 @@ properties:
   redis.port:
     description: "Redis port"
     default: 6379
+  redis.connection_limit:
+    description: "The maximum number of connections that are allowed per host"
+    default: 40
+  redis.connection_core_size:
+    description: "The core size of the connection pool"
+    default: 20

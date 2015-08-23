@@ -49,8 +49,8 @@ val storeBuilder = Store.Builder(cassandra.SpanStoreBuilder(cluster))
 
 <% if p('zipkin.store') == 'redis' %>
 val client = Client(ClientBuilder().hosts("<%= p('redis.address') %>:<%= p('redis.port') %>")
-                                   .hostConnectionLimit(40)
-                                   .hostConnectionCoresize(20)
+                                   .hostConnectionLimit(<%= p('redis.connection_limit') %>)
+                                   .hostConnectionCoresize(<%= p('redis.connection_core_size') %>)
                                    .codec(Redis())
                                    .build())
 val storeBuilder = Store.Builder(redis.SpanStoreBuilder(client))
