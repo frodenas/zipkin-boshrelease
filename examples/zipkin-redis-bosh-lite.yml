@@ -1,6 +1,6 @@
 <%
-director_uuid = 'CHANGE-ME'
-deployment_name = 'zipkin'
+director_uuid = "CHANGE-ME"
+deployment_name = "zipkin"
 %>
 ---
 name: <%= deployment_name %>
@@ -82,24 +82,6 @@ networks:
         static:
           - 10.244.0.26
 
-      - cloud_properties: {}
-        name: random
-        range: 10.244.0.28/30
-        reserved:
-          - 10.244.0.29
-
-      - cloud_properties: {}
-        name: random
-        range: 10.244.0.32/30
-        reserved:
-          - 10.244.0.33
-
-      - cloud_properties: {}
-        name: random
-        range: 10.244.0.36/30
-        reserved:
-          - 10.244.0.37
-
 resource_pools:
   - name: default
     network: default
@@ -109,20 +91,6 @@ resource_pools:
     cloud_properties: {}
 
 jobs:
-  - name: zookeeper
-    templates:
-      - name: zookeeper
-    instances: 3
-    resource_pool: default
-    persistent_disk: 10240
-    networks:
-      - name: default
-        default: [dns, gateway]
-        static_ips:
-          - 10.244.0.2
-          - 10.244.0.6
-          - 10.244.0.10
-
   - name: redis
     templates:
       - name: redis
@@ -133,7 +101,7 @@ jobs:
       - name: default
         default: [dns, gateway]
         static_ips:
-          - 10.244.0.14
+          - 10.244.0.2
 
   - name: zipkin_collector
     templates:
@@ -144,7 +112,7 @@ jobs:
       - name: default
         default: [dns, gateway]
         static_ips:
-          - 10.244.0.18
+          - 10.244.0.6
 
   - name: zipkin_query
     templates:
@@ -155,7 +123,7 @@ jobs:
       - name: default
         default: [dns, gateway]
         static_ips:
-          - 10.244.0.22
+          - 10.244.0.10
 
   - name: zipkin_web
     templates:
@@ -166,17 +134,14 @@ jobs:
       - name: default
         default: [dns, gateway]
         static_ips:
-          - 10.244.0.26
+          - 10.244.0.14
 
 properties:
-  zipkin:
-    store: 'redis'
-
-  zookeeper:
-    servers:
-      - 10.244.0.2
-      - 10.244.0.6
-      - 10.244.0.10
-
   redis:
-    address: 10.244.0.14
+    address: 10.244.0.2
+
+  zipkin:
+    store: "redis"
+    query:
+      servers:
+        - 10.244.0.10

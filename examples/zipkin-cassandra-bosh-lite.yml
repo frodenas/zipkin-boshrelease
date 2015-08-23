@@ -1,6 +1,6 @@
 <%
-director_uuid = 'CHANGE-ME'
-deployment_name = 'zipkin'
+director_uuid = "CHANGE-ME"
+deployment_name = "zipkin"
 %>
 ---
 name: <%= deployment_name %>
@@ -98,24 +98,6 @@ networks:
         static:
           - 10.244.0.34
 
-      - cloud_properties: {}
-        name: random
-        range: 10.244.0.36/30
-        reserved:
-          - 10.244.0.37
-
-      - cloud_properties: {}
-        name: random
-        range: 10.244.0.40/30
-        reserved:
-          - 10.244.0.41
-
-      - cloud_properties: {}
-        name: random
-        range: 10.244.0.44/30
-        reserved:
-          - 10.244.0.45
-
 resource_pools:
   - name: default
     network: default
@@ -125,9 +107,9 @@ resource_pools:
     cloud_properties: {}
 
 jobs:
-  - name: zookeeper
+  - name: cassandra
     templates:
-      - name: zookeeper
+      - name: cassandra
     instances: 3
     resource_pool: default
     persistent_disk: 10240
@@ -139,20 +121,6 @@ jobs:
           - 10.244.0.6
           - 10.244.0.10
 
-  - name: cassandra
-    templates:
-      - name: cassandra
-    instances: 3
-    resource_pool: default
-    persistent_disk: 10240
-    networks:
-      - name: default
-        default: [dns, gateway]
-        static_ips:
-          - 10.244.0.14
-          - 10.244.0.18
-          - 10.244.0.22
-
   - name: zipkin_collector
     templates:
       - name: zipkin_collector
@@ -162,7 +130,7 @@ jobs:
       - name: default
         default: [dns, gateway]
         static_ips:
-          - 10.244.0.26
+          - 10.244.0.14
 
   - name: zipkin_query
     templates:
@@ -173,7 +141,7 @@ jobs:
       - name: default
         default: [dns, gateway]
         static_ips:
-          - 10.244.0.30
+          - 10.244.0.18
 
   - name: zipkin_web
     templates:
@@ -184,25 +152,22 @@ jobs:
       - name: default
         default: [dns, gateway]
         static_ips:
-          - 10.244.0.34
+          - 10.244.0.22
 
 properties:
-  zipkin:
-    store: 'cassandra'
-
-  zookeeper:
+  cassandra:
+    java_heap_size: "512m"
+    seed_servers:
+      - 10.244.0.2
+      - 10.244.0.6
+      - 10.244.0.10
     servers:
       - 10.244.0.2
       - 10.244.0.6
       - 10.244.0.10
 
-  cassandra:
-    seed_servers:
-      - 10.244.0.14
-      - 10.244.0.18
-      - 10.244.0.22
-
-    servers:
-      - 10.244.0.14
-      - 10.244.0.18
-      - 10.244.0.22
+  zipkin:
+    store: "cassandra"
+    query:
+      servers:
+        - 10.244.0.18
