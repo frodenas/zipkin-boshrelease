@@ -33,7 +33,7 @@ case $1 in
            -log.rotateCount="${ZIPKIN_WEB_LOGROTATE_ROTATE}" \
            -zipkin.web.cacheResources=true \
            -zipkin.web.port=":${ZIPKIN_WEB_SERVER_PORT}" \
-           -zipkin.web.query.dest="${ZIPKIN_WEB_QUERY_ADDRESS}:${ZIPKIN_WEB_QUERY_PORT}" \
+           -zipkin.web.query.dest="${ZIPKIN_WEB_QUERY_DEST}" \
            >>${ZIPKIN_WEB_LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
            2>>${ZIPKIN_WEB_LOG_DIR}/${OUTPUT_LABEL}.stderr.log
     ;;

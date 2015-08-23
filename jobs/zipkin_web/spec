@@ -36,8 +36,8 @@ properties:
     description: "Number of times Zipkin Web log files are rotated before being removed"
     default: "7"
 
-  zipkin.query.address:
-   description: "Zipkin Query address"
+  zipkin.query.servers:
+   description: "List of all Zipkin Query server IP/hostnames"
   zipkin.query.server_port:
     description: "Zipkin Query server port"
     default: 9411

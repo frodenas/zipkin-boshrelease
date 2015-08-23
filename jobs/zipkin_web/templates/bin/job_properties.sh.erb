@@ -43,8 +43,5 @@ export ZIPKIN_WEB_LOGROTATE_FREQUENCY="<%= p('zipkin.web.logrotate.frequency') %
 # Number of times Zipkin Web log files are rotated before being removed
 export ZIPKIN_WEB_LOGROTATE_ROTATE="<%= p('zipkin.web.logrotate.rotate') %>" \
 
-# Zipkin Query address
-export ZIPKIN_WEB_QUERY_ADDRESS="<%= p('zipkin.query.address') %>"
-
-# Zipkin Query server port
-export ZIPKIN_WEB_QUERY_PORT="<%= p('zipkin.query.server_port') %>"
+# Zipkin Query destinations
+export ZIPKIN_WEB_QUERY_DEST="<%= p('zipkin.query.servers').map { |server| "#{server}:#{p('zipkin.query.server_port')}" }.join(',') %>"
