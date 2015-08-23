@@ -27,3 +27,24 @@ export ZIPKIN_WEB_GROUP="<%= p('zipkin.web.group') %>"
 
 # Java Heap Size for Zipkin Web
 export ZIPKIN_WEB_JAVA_HEAP_SIZE="<%= p('zipkin.web.java_heap_size') %>"
+
+# Zipkin Web server port
+export ZIPKIN_WEB_SERVER_PORT="<%= p('zipkin.web.server_port') %>"
+
+# Zipkin Web admin port
+export ZIPKIN_WEB_ADMIN_PORT="<%= p('zipkin.web.admin_port') %>"
+
+# Zipkin Web log level
+export ZIPKIN_WEB_LOG_LEVEL="<%= p('zipkin.web.loglevel') %>"
+
+# Frequency of Zipkin Web log files rotation
+export ZIPKIN_WEB_LOGROTATE_FREQUENCY="<%= p('zipkin.web.logrotate.frequency') %>" \
+
+# Number of times Zipkin Web log files are rotated before being removed
+export ZIPKIN_WEB_LOGROTATE_ROTATE="<%= p('zipkin.web.logrotate.rotate') %>" \
+
+# Zipkin Query address
+export ZIPKIN_WEB_QUERY_ADDRESS="<%= p('zipkin.query.address') %>"
+
+# Zipkin Query server port
+export ZIPKIN_WEB_QUERY_PORT="<%= p('zipkin.query.server_port') %>"

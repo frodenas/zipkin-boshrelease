@@ -16,9 +16,6 @@ case $1 in
     create_group ${ZIPKIN_WEB_GROUP}
     create_user ${ZIPKIN_WEB_USER} ${ZIPKIN_WEB_GROUP}
 
-    # HACK: extract resources
-    unzip -u /var/vcap/packages/zipkin_web/zipkin-web-1.1.0.jar public/* templates/* -d /var/vcap/sys/tmp/zipkin_web/resources
-
     # Find Zipkin Web jar
     zikpkin_web_jar=`ls -r /var/vcap/packages/zipkin_web/zipkin-web-*.jar | grep -v test | head -1`
 
@@ -28,10 +25,15 @@ case $1 in
            -Xms"${ZIPKIN_WEB_JAVA_HEAP_SIZE}" \
            -Dfile.encoding=UTF-8 \
            -Djava.io.tmpdir=${ZIPKIN_WEB_TMP_DIR} \
-           -cp "/var/vcap/packages/zipkin_web/libs/*" \
            -jar "${zikpkin_web_jar}" \
-           -f ${ZIPKIN_WEB_CONF_DIR}/web.scala \
-           -D local_docroot=/var/vcap/sys/tmp/zipkin_web/resources \
+           -admin.port=":${ZIPKIN_WEB_ADMIN_PORT}" \
+           -log.level="${ZIPKIN_WEB_LOG_LEVEL}" \
+           -log.output="${ZIPKIN_WEB_LOG_DIR}/zipkin_web.log" \
+           -log.rollPolicy="${ZIPKIN_WEB_LOGROTATE_FREQUENCY}" \
+           -log.rotateCount="${ZIPKIN_WEB_LOGROTATE_ROTATE}" \
+           -zipkin.web.cacheResources=true \
+           -zipkin.web.port=":${ZIPKIN_WEB_SERVER_PORT}" \
+           -zipkin.web.query.dest="${ZIPKIN_WEB_QUERY_ADDRESS}:${ZIPKIN_WEB_QUERY_PORT}" \
            >>${ZIPKIN_WEB_LOG_DIR}/${OUTPUT_LABEL}.stdout.log \
            2>>${ZIPKIN_WEB_LOG_DIR}/${OUTPUT_LABEL}.stderr.log
     ;;

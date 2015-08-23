@@ -4,13 +4,11 @@ name: zipkin_web
 packages:
   - bosh-helpers
   - java
-  - scala
   - zipkin_web
 
 templates:
   bin/job_properties.sh.erb: bin/job_properties.sh
   bin/zipkin_web_ctl.erb: bin/zipkin_web_ctl
-  config/web.scala.erb: config/web.scala
 
 properties:
   zipkin.web.user:
@@ -28,9 +26,6 @@ properties:
   zipkin.web.admin_port:
     description: "Zipkin Web admin port"
     default: 9902
-  zipkin.web.resource_path_prefix:
-    description: "Zipkin Web resource path prefix"
-    default: "/public"
   zipkin.web.loglevel:
     description: "Zipkin Web log level (OFF, FATAL, CRITICAL, ERROR, WARNING, INFO, DEBUG, TRACE, ALL)"
     default: "INFO"
@@ -41,11 +36,8 @@ properties:
     description: "Number of times Zipkin Web log files are rotated before being removed"
     default: "7"
 
-  zookeeper.servers:
-    description: "List of all Apache Zookeeper server host IP/hostnames"
-  zookeeper.client_port:
-    description: "Port at which the clients will connect to Apache Zookeeper"
-    default: 2181
-  zookeeper.zk_state:
-    description: "Path in ZooKeeper for storing Zipkin state"
-    default: "/zipkin"
+  zipkin.query.address:
+   description: "Zipkin Query address"
+  zipkin.query.server_port:
+    description: "Zipkin Query server port"
+    default: 9411
