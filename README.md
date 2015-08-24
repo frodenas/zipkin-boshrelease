@@ -16,7 +16,7 @@ To use this BOSH release, first upload it to your BOSH:
 bosh target BOSH_HOST
 git clone https://github.com/frodenas/zipkin-boshrelease.git
 cd zipkin-boshrelease
-bosh upload release releases/zipkin/zipkin-2.yml
+bosh upload release releases/zipkin/zipkin-3.yml
 ```
 
 ### Create a BOSH deployment manifest
